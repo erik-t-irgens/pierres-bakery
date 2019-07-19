@@ -94,18 +94,28 @@ namespace Bakery
         // MAIN AREA FOR ALL ITEMS ADDED TO CART
         public static void CartArea(List<Pastry> pastryInventory, List<Pastry> pastryCart, List<Bread> breadInventory, List<Bread> breadCart)
         {
-            Console.WriteLine("Items in your Cart: ");
+            var itemsInCart = ("Items in your Cart: ");
+            Console.SetCursorPosition((Console.WindowWidth - itemsInCart.Length) / 2, Console.CursorTop);
+            Console.WriteLine(itemsInCart);
             foreach (Bread item in breadCart)
             {
-                Console.WriteLine(item.breadName + "- $" + item.breadPrice);
+                var printLine = (item.breadName + "--- $" + item.breadPrice);
+                Console.SetCursorPosition((Console.WindowWidth - printLine.Length) / 2, Console.CursorTop);
+                Console.WriteLine(printLine);
             }
             foreach (Pastry item in pastryCart)
             {
-                Console.WriteLine(item.pastryName + "- $" + item.pastryPrice);
+                var printLine = (item.pastryName + "--- $" + item.pastryPrice);
+                Console.SetCursorPosition((Console.WindowWidth - printLine.Length) / 2, Console.CursorTop);
+                Console.WriteLine(printLine);
             }
             int pastryCount = pastryCart.Count;
             int breadCount = breadCart.Count;
-            Console.WriteLine("Your current total is: $" + (Pastry.totalPastryPrice(pastryCount) + Bread.totalBreadPrice(breadCount)) + " --- Discounts Applied");
+            Console.ForegroundColor = ConsoleColor.Green;
+            string currentTotal = ("Your current total is: $" + (Pastry.totalPastryPrice(pastryCount) + Bread.totalBreadPrice(breadCount)) + " --- Discounts Applied");
+            Console.SetCursorPosition((Console.WindowWidth - currentTotal.Length) / 2, Console.CursorTop);
+            Console.WriteLine(currentTotal);
+            Console.ForegroundColor = ConsoleColor.White;
             string prompt1 = "What would you like to do?";
             Console.SetCursorPosition((Console.WindowWidth - prompt1.Length) / 2, Console.CursorTop);
             Console.WriteLine(prompt1);
@@ -189,10 +199,18 @@ namespace Bakery
             foreach (Bread item in breadInventory)
             {
                 Thread.Sleep(500);
-                Console.WriteLine("----------------------");
-                Console.WriteLine(item.breadName);
-                Console.WriteLine("$" + item.breadPrice);
-                Console.WriteLine(item.breadCalories + " Calories");
+                var styleLine = ("----------------------");
+                Console.SetCursorPosition((Console.WindowWidth - styleLine.Length) / 2, Console.CursorTop);
+                Console.WriteLine(styleLine);
+                var breadNamePrint = (item.breadName);
+                Console.SetCursorPosition((Console.WindowWidth - breadNamePrint.Length) / 2, Console.CursorTop);
+                Console.WriteLine(breadNamePrint);
+                var breadPricePrint = ("$" + item.breadPrice);
+                Console.SetCursorPosition((Console.WindowWidth - breadPricePrint.Length) / 2, Console.CursorTop);
+                Console.WriteLine(breadPricePrint);
+                var breadCaloriesPrint = (item.breadCalories + " Calories");
+                Console.SetCursorPosition((Console.WindowWidth - breadCaloriesPrint.Length) / 2, Console.CursorTop);
+                Console.WriteLine(breadCaloriesPrint);
             }
             string breadPrompt1 = "Would you like to add any items to your cart?";
             Console.SetCursorPosition((Console.WindowWidth - breadPrompt1.Length) / 2, Console.CursorTop);
@@ -206,7 +224,9 @@ namespace Bakery
             {
                 for (int i = 0; i < breadInventory.Count; i++)
                 {
-                    Console.WriteLine(" " + (i + 1) + "-" + breadInventory[i].breadName);
+                    var displayOptions = (" " + (i + 1) + "-" + breadInventory[i].breadName);
+                    Console.SetCursorPosition((Console.WindowWidth - displayOptions.Length) / 2, Console.CursorTop);
+                    Console.WriteLine(displayOptions);
                 }
                 string breadSelectorPrompt = "First, select which item you'd like to add (with corrosponding number)";
                 Console.SetCursorPosition((Console.WindowWidth - breadSelectorPrompt.Length) / 2, Console.CursorTop);
@@ -225,7 +245,7 @@ namespace Bakery
             }
             else if (breadPromptResponse == "No" || breadPromptResponse == "no")
             {
-                BreadArea(pastryInventory, pastryCart, breadInventory, breadCart);
+                ShoppingMainPage(pastryInventory, pastryCart, breadInventory, breadCart);
             }
             else
             {
@@ -253,10 +273,18 @@ namespace Bakery
             foreach (Pastry item in pastryInventory)
             {
                 Thread.Sleep(500);
-                Console.WriteLine("----------------------");
-                Console.WriteLine(item.pastryName);
-                Console.WriteLine("$" + item.pastryPrice);
-                Console.WriteLine(item.pastryCalories + " Calories");
+                var styleLine = ("----------------------");
+                Console.SetCursorPosition((Console.WindowWidth - styleLine.Length) / 2, Console.CursorTop);
+                Console.WriteLine(styleLine);
+                var pastryNamePrint = (item.pastryName);
+                Console.SetCursorPosition((Console.WindowWidth - pastryNamePrint.Length) / 2, Console.CursorTop);
+                Console.WriteLine(pastryNamePrint);
+                var pastryPricePrint = ("$" + item.pastryPrice);
+                Console.SetCursorPosition((Console.WindowWidth - pastryPricePrint.Length) / 2, Console.CursorTop);
+                Console.WriteLine(pastryPricePrint);
+                var pastryCaloriesPrint = (item.pastryCalories + " Calories");
+                Console.SetCursorPosition((Console.WindowWidth - pastryCaloriesPrint.Length) / 2, Console.CursorTop);
+                Console.WriteLine(pastryCaloriesPrint);
             }
             string pastryPrompt1 = "Would you like to add any items to your cart?";
             Console.SetCursorPosition((Console.WindowWidth - pastryPrompt1.Length) / 2, Console.CursorTop);
@@ -270,7 +298,9 @@ namespace Bakery
             {
                 for (int i = 0; i < pastryInventory.Count; i++)
                 {
-                    Console.WriteLine(" " + (i + 1) + "-" + pastryInventory[i].pastryName);
+                    var displayOptions = (" " + (i + 1) + "-" + pastryInventory[i].pastryName);
+                    Console.SetCursorPosition((Console.WindowWidth - displayOptions.Length) / 2, Console.CursorTop);
+                    Console.WriteLine(displayOptions);
                 }
                 string pastrySelectorPrompt = "First, select which item you'd like to add (with corrosponding number)";
                 Console.SetCursorPosition((Console.WindowWidth - pastrySelectorPrompt.Length) / 2, Console.CursorTop);
@@ -290,7 +320,7 @@ namespace Bakery
             }
             else if (pastryPromptResponse == "No" || pastryPromptResponse == "no")
             {
-                PastryArea(pastryInventory, pastryCart, breadInventory, breadCart);
+                ShoppingMainPage(pastryInventory, pastryCart, breadInventory, breadCart);
             }
             else
             {
@@ -311,8 +341,9 @@ namespace Bakery
             int breadCount = breadCart.Count;
 
             Console.WriteLine("You currently have " + pastryCount + " pastries and " + breadCount + " loaves of bread in your cart.");
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Your current total is: $" + (Pastry.totalPastryPrice(pastryCount) + Bread.totalBreadPrice(breadCount)) + " --- Discounts Applied");
-
+            Console.ForegroundColor = ConsoleColor.White;
             string prompt1 = "What would you like to do?";
             Console.SetCursorPosition((Console.WindowWidth - prompt1.Length) / 2, Console.CursorTop);
             Console.WriteLine(prompt1);
