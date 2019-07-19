@@ -28,9 +28,13 @@ namespace Bakery
             // LIST FOR SHOP INVENTORY AND FOR USER CART CREATED
             List<Bread> breadInventory = new List<Bread>() { wholeGrain, pumpernickel, sourdough, white, molasses, saltedRosemary };
             List<Bread> breadCart = new List<Bread>(0);
+            LandingPage(pastryInventory, pastryCart, breadInventory, breadCart);
+        }
+        public static void LandingPage(List<Pastry> pastryInventory, List<Pastry> pastryCart, List<Bread> breadInventory, List<Bread> breadCart)
+        {
+
 
             //    INTRODUCTORY AREA with STYLING (Centering lines, background color, etc)
-            Thread.Sleep(3000);
             Console.Clear();
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
@@ -83,7 +87,7 @@ namespace Bakery
                 Console.SetCursorPosition((Console.WindowWidth - errorCode.Length) / 2, Console.CursorTop);
                 Console.WriteLine(errorCode);
                 Thread.Sleep(2000);
-                Main();
+                LandingPage(pastryInventory, pastryCart, breadInventory, breadCart);
             }
         }
 
@@ -93,16 +97,44 @@ namespace Bakery
             Console.WriteLine("Items in your Cart: ");
             foreach (Bread item in breadCart)
             {
-                Console.WriteLine(item.breadName);
-                Console.WriteLine("$" + item.breadPrice);
+                Console.WriteLine(item.breadName + "- $" + item.breadPrice);
             }
             foreach (Pastry item in pastryCart)
             {
-                Console.WriteLine(item.pastryName);
-                Console.WriteLine("$" + item.pastryPrice);
+                Console.WriteLine(item.pastryName + "- $" + item.pastryPrice);
             }
-
-
+            int pastryCount = pastryCart.Count;
+            int breadCount = breadCart.Count;
+            Console.WriteLine("Your current total is: $" + (Pastry.totalPastryPrice(pastryCount) + Bread.totalBreadPrice(breadCount)) + " --- Discounts Applied");
+            string prompt1 = "What would you like to do?";
+            Console.SetCursorPosition((Console.WindowWidth - prompt1.Length) / 2, Console.CursorTop);
+            Console.WriteLine(prompt1);
+            string prompt2 = "(Shop/Checkout)";
+            Console.SetCursorPosition((Console.WindowWidth - prompt2.Length) / 2, Console.CursorTop);
+            Console.WriteLine(prompt2);
+            string response = Console.ReadLine();
+            // DECIDES WHAT TO DO WHEN USER ANSWERS
+            if (response == "Shop" || response == "shop")
+            {
+                Console.WriteLine("You chose Shop!");
+                Thread.Sleep(1000);
+                ShoppingMainPage(pastryInventory, pastryCart, breadInventory, breadCart);
+            }
+            else if (response == "Checkout" || response == "checkout")
+            {
+                Console.WriteLine("You chose Checkout!");
+                Thread.Sleep(1000);
+                CheckoutArea(pastryInventory, pastryCart, breadInventory, breadCart);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                string errorCode = "You entered an incorrect command. Check your spelling!";
+                Console.SetCursorPosition((Console.WindowWidth - errorCode.Length) / 2, Console.CursorTop);
+                Console.WriteLine(errorCode);
+                Thread.Sleep(2000);
+                CartArea(pastryInventory, pastryCart, breadInventory, breadCart);
+            }
         }
 
         // MAIN PAGE FOR THE SHOPPING AREA
@@ -130,7 +162,7 @@ namespace Bakery
             }
             else if (shopResponse == "Back" || shopResponse == "back")
             {
-                Main();
+                LandingPage(pastryInventory, pastryCart, breadInventory, breadCart);
             }
             else
             {
@@ -142,14 +174,21 @@ namespace Bakery
                 ShoppingMainPage(pastryInventory, pastryCart, breadInventory, breadCart);
             }
         }
+
+        // AREA TO BROWSE AND ADD BREADS TO USER LIST
         public static void BreadArea(List<Pastry> pastryInventory, List<Pastry> pastryCart, List<Bread> breadInventory, List<Bread> breadCart)
         {
             string breadIntro1 = "Here is a list of our bread items:";
             Console.SetCursorPosition((Console.WindowWidth - breadIntro1.Length) / 2, Console.CursorTop);
             Console.WriteLine(breadIntro1);
             Console.WriteLine();
+            string breadSaleAnnouncement = "***BREAD IS CURRENTLY BOGO!!***";
+            Console.SetCursorPosition((Console.WindowWidth - breadSaleAnnouncement.Length) / 2, Console.CursorTop);
+            Console.WriteLine(breadSaleAnnouncement);
+            Console.WriteLine();
             foreach (Bread item in breadInventory)
             {
+                Thread.Sleep(500);
                 Console.WriteLine("----------------------");
                 Console.WriteLine(item.breadName);
                 Console.WriteLine("$" + item.breadPrice);
@@ -200,14 +239,20 @@ namespace Bakery
             ShoppingMainPage(pastryInventory, pastryCart, breadInventory, breadCart);
         }
 
+        // AREA TO BROWSE AND ADD PASTRIES TO USER LIST
         public static void PastryArea(List<Pastry> pastryInventory, List<Pastry> pastryCart, List<Bread> breadInventory, List<Bread> breadCart)
         {
             string pastryIntro1 = "Here is a list of our pastry items:";
             Console.SetCursorPosition((Console.WindowWidth - pastryIntro1.Length) / 2, Console.CursorTop);
             Console.WriteLine(pastryIntro1);
             Console.WriteLine();
+            string pastrySaleAnnouncement = "***PASTRIES ARE BUY 2 GET 1 FREE!!!***";
+            Console.SetCursorPosition((Console.WindowWidth - pastrySaleAnnouncement.Length) / 2, Console.CursorTop);
+            Console.WriteLine(pastrySaleAnnouncement);
+            Console.WriteLine();
             foreach (Pastry item in pastryInventory)
             {
+                Thread.Sleep(500);
                 Console.WriteLine("----------------------");
                 Console.WriteLine(item.pastryName);
                 Console.WriteLine("$" + item.pastryPrice);
@@ -238,6 +283,7 @@ namespace Bakery
                 for (int i = 0; i < userSelectionAddAmount; i++)
                 {
                     pastryCart.Add(pastryInventory[userPastrySelection - 1]);
+
                 }
                 Console.WriteLine("You've added " + userSelectionAddAmount + " " + pastryInventory[userPastrySelection - 1].pastryName + " to your cart!");
 
@@ -258,16 +304,44 @@ namespace Bakery
             ShoppingMainPage(pastryInventory, pastryCart, breadInventory, breadCart);
         }
 
-
-
-
-
-
         // MAIN AREA FOR CHECKOUT
-
         public static void CheckoutArea(List<Pastry> pastryInventory, List<Pastry> pastryCart, List<Bread> breadInventory, List<Bread> breadCart)
         {
-            Console.WriteLine("TestCheckout");
+            int pastryCount = pastryCart.Count;
+            int breadCount = breadCart.Count;
+
+            Console.WriteLine("You currently have " + pastryCount + " pastries and " + breadCount + " loaves of bread in your cart.");
+            Console.WriteLine("Your current total is: $" + (Pastry.totalPastryPrice(pastryCount) + Bread.totalBreadPrice(breadCount)) + " --- Discounts Applied");
+
+            string prompt1 = "What would you like to do?";
+            Console.SetCursorPosition((Console.WindowWidth - prompt1.Length) / 2, Console.CursorTop);
+            Console.WriteLine(prompt1);
+            string prompt2 = "(Purchase/Back)";
+            Console.SetCursorPosition((Console.WindowWidth - prompt2.Length) / 2, Console.CursorTop);
+            Console.WriteLine(prompt2);
+            string response = Console.ReadLine();
+            // DECIDES WHAT TO DO WHEN USER ANSWERS
+            if (response == "Purchase" || response == "purchase")
+            {
+                Console.WriteLine("Your total today is $" + (Pastry.totalPastryPrice(pastryCount) + Bread.totalBreadPrice(breadCount)) + " --- Discounts Applied");
+                Thread.Sleep(1000);
+                Console.WriteLine("Thanks for shopping at Pierre's Today!");
+            }
+            else if (response == "Back" || response == "back")
+            {
+                Console.WriteLine("Taking you back!");
+                Thread.Sleep(1000);
+                LandingPage(pastryInventory, pastryCart, breadInventory, breadCart);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                string errorCode = "You entered an incorrect command. Check your spelling!";
+                Console.SetCursorPosition((Console.WindowWidth - errorCode.Length) / 2, Console.CursorTop);
+                Console.WriteLine(errorCode);
+                Thread.Sleep(2000);
+                CheckoutArea(pastryInventory, pastryCart, breadInventory, breadCart);
+            }
         }
     }
 }

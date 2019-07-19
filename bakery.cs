@@ -14,14 +14,24 @@ namespace Bakery.Goods
             breadPrice = price;
             breadCalories = cals;
         }
-        public int totalBreadPrice(int totalItems)
+        public static int totalBreadPrice(int totalItems)
         {
-            var currentBreadTotal = breadPrice * totalItems;
-            var updatedBreadTotal = currentBreadTotal / 3;
-            var finalBreadTotal = (updatedBreadTotal * (2 / 3)) + (currentBreadTotal % 3);
+            int breadPrice = 3;
+            int currentBreadTotal = breadPrice * totalItems;
+            int finalBreadTotal = currentBreadTotal;
+            if (totalItems > 2)
+            {
+                if (totalItems % 2 == 0)
+                {
+                    finalBreadTotal = (finalBreadTotal / 2);
+                }
+                else
+                {
+                    finalBreadTotal = ((finalBreadTotal / 2) + ((totalItems % 2) * breadPrice));
+                }
+            }
             return finalBreadTotal;
         }
-
     }
     public class Pastry
     {
@@ -35,14 +45,17 @@ namespace Bakery.Goods
             pastryCalories = cals;
         }
 
-        public int totalPastryPrice(int totalItems)
+        public static int totalPastryPrice(int totalItems)
         {
-            var currentPastryTotal = pastryPrice * totalItems;
-            var updatedPastryTotal = currentPastryTotal / 3;
-            var finalPastryTotal = (updatedPastryTotal * (2 / 3)) + (currentPastryTotal % 3);
-            return finalPastryTotal;
+            int pastryPrice = 2;
+            int currentPastryTotal = pastryPrice * totalItems;
+            double finalPastryTotal = (double)currentPastryTotal;
+            if (totalItems >= 3)
+            {
+                finalPastryTotal = (finalPastryTotal * .66) + ((totalItems % 3) * pastryPrice);
+            }
+            return (int)finalPastryTotal;
         }
-
     }
 }
 
