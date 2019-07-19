@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Bakery.Goods
 {
-    class Bread
+    public class Bread
     {
         public string breadName { get; set; }
         public int breadPrice { get; set; }
@@ -14,14 +14,16 @@ namespace Bakery.Goods
             breadPrice = price;
             breadCalories = cals;
         }
-
-        public void SetPrice(int newPrice)
+        public int totalBreadPrice(int totalItems)
         {
-            breadPrice = newPrice;
+            var currentBreadTotal = breadPrice * totalItems;
+            var updatedBreadTotal = currentBreadTotal / 3;
+            var finalBreadTotal = (updatedBreadTotal * (2 / 3)) + (currentBreadTotal % 3);
+            return finalBreadTotal;
         }
 
     }
-    class Pastry
+    public class Pastry
     {
         public string pastryName { get; set; }
         public int pastryPrice { get; set; }
@@ -33,9 +35,12 @@ namespace Bakery.Goods
             pastryCalories = cals;
         }
 
-        public void SetPrice(int newPrice)
+        public int totalPastryPrice(int totalItems)
         {
-            pastryPrice = newPrice;
+            var currentPastryTotal = pastryPrice * totalItems;
+            var updatedPastryTotal = currentPastryTotal / 3;
+            var finalPastryTotal = (updatedPastryTotal * (2 / 3)) + (currentPastryTotal % 3);
+            return finalPastryTotal;
         }
 
     }
